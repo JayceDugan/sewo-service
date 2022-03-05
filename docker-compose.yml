@@ -1,0 +1,33 @@
+version: "3.4"
+services:
+  api:
+    container_name: sewo-api
+    build:
+      context: .
+      dockerfile: build/api/Dockerfile
+      target: base
+    env_file: infrastructure/api/.env.development
+    expose:
+      - "3000"
+    ports:
+      - '3000:3000'
+    command: "yarn api:dev"
+    volumes:
+      - ./:/usr/app
+    networks:
+      - sewo-service
+  database:
+    image: 'postgres'
+    env_file:
+      - infrastructure/database/.env.development
+    ports:
+      - '6000:5432'
+    networks:
+      - sewo-service
+    volumes:
+      - database-data:/bar/lib/postgresql/data
+volumes:
+  database-data:
+networks:
+  sewo-service:
+    driver: bridge
