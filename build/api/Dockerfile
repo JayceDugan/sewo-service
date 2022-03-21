@@ -2,8 +2,7 @@ FROM node:alpine as base
 
 WORKDIR /usr/app
 
-COPY ["package.json", "yarn.lock", "/usr/app/"]
-COPY src src
+COPY ["package.json", "yarn.lock", "src", "/usr/app/"]
 
 RUN yarn install
 
